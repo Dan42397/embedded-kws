@@ -34,3 +34,23 @@ q. `target extended-remote` timed out. Cause: the earlier OpenOCD had exited.
 
 **To do:** measure the real blink period on the logic analyzer; read MODER and
 RCC_AHB2ENR by address and check them against RM0440.
+
+
+Step 3 entry
+
+Configuration (the inputs):
+
+Timer clock source and frequency: HSI, 16 MHz (reset default, SystemInit unchanged)
+PSC = 15, ARR = 999, CCR1 = 250
+Predicted: f = 16 MHz / 16 / 1000 = 1.000 kHz; duty = 250/1000 = 25.00 %; tick = 1 µs
+Pin: PA5 = LD2, AF1 = TIM2_CH1 (DS12288 §4.11)
+
+Measurement (the outputs):
+
+Instrument: Lonely Binary 8-ch FX2 analyzer, Logic 2 / PulseView, sample rate used
+Measured: 1.002 kHz, 25.05 % duty
+Deviation and cause: +0.2 % → HSI ±1 % tolerance; +0.05 % → 1 µs sample quantization
+
+
+
+
